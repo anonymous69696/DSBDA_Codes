@@ -1,0 +1,47 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from sklearn.metrics import confusion_matrix
+
+# Load the iris dataset
+data = pd.read_csv("iris.csv")
+
+# Split the dataset into features 
+X = data.iloc[:, :-1]
+y = data.iloc[:, -1]
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Create the Naive Bayes model
+model = GaussianNB()
+
+# Train the model
+model.fit(X_train, y_train)
+GaussianNB()
+
+# Predict the labels for the testing set
+y_pred = model.predict(X_test)
+
+# Compute the confusion matrix
+conf_matrix = confusion_matrix(y_test, y_pred)
+
+# Extract the True Positives, False Positives, True Negatives, and False Negatives from the confusion matrix
+TP = conf_matrix[1,1]
+FP = conf_matrix[0,1]
+TN = conf_matrix[0,0]
+FN = conf_matrix[1,0]
+
+# Compute the Accuracy, Error rate, Precision, and Recall
+Accuracy = (TP + TN) / (TP + TN + FP + FN)
+Error_rate = (FP + FN) / (TP + TN + FP + FN)
+Precision = TP / (TP + FP)
+Recall = TP / (TP + FN)
+
+# Print the confusion matrix and evaluation metrics
+print("Confusion Matrix:")
+print(conf_matrix)
+print("Accuracy:", Accuracy)
+print("Error rate:", Error_rate)
+print("Precision:", Precision)
+print("Recall:", Recall)

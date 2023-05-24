@@ -1,0 +1,81 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.datasets import load_iris
+
+dataset=pd.read_csv('iris_dataset.csv')
+
+dataset
+
+data = load_iris()
+
+df = pd.DataFrame(data=data.data, columns=data.feature_names)
+df.head()
+
+plt.figure(figsize = (10,7))
+x = df["sepal length (cm)"]
+
+plt.hist(x,bins=30,color="Orange")
+plt.title("Sepal Length in cm")
+plt.xlabel("Sepal_Length_cm")
+plt.ylabel("Count")
+
+plt.figure(figsize=(10,7))
+x=df["sepal width (cm)"]
+
+plt.hist(x,bins=20,color="Green")
+plt.title("Sepal Width in cm")
+plt.xlabel("Sepal_Width_cm")
+plt.ylabel("Count")
+
+plt.figure(figsize = (10,7))
+x = df["petal length (cm)"]
+
+plt.hist(x,bins=10,color="Green")
+plt.title("Petal Length in cm")
+plt.xlabel("Petal_Length_cm")
+plt.ylabel("Count")
+
+plt.figure(figsize = (10,7))
+x = df["petal width (cm)"]
+
+plt.hist(x,bins=10,color="Green")
+plt.title("Petal Width in cm")
+plt.xlabel("Petal_Width_cm")
+plt.ylabel("Count")
+
+plt.figure(figsize = (10,7))
+df.boxplot()
+
+def graph(y):
+ sns.boxplot(x="species",y=y, data = dataset)
+
+plt.figure(figsize = (10,10))
+plt.subplot(221)
+graph('sepal_length')
+plt.show()
+
+data_to_plot = [df["sepal width (cm)"]]
+sns.set_style("dark")
+fig=plt.figure(1,figsize=(12,8))
+ax=fig.add_subplot(111)
+bp=ax.boxplot(data_to_plot);
+
+data_to_plot = [df["petal width (cm)"]]
+sns.set_style("dark")
+fig=plt.figure(1,figsize=(12,8))
+ax=fig.add_subplot(111)
+bp=ax.boxplot(data_to_plot);
+
+data_to_plot = [df["sepal length (cm)"]]
+sns.set_style("dark")
+fig=plt.figure(1,figsize=(12,8))
+ax=fig.add_subplot(111)
+bp=ax.boxplot(data_to_plot);
+
+data_to_plot = [df["petal length (cm)"]]
+sns.set_style("dark")
+fig=plt.figure(1,figsize=(12,8))
+ax=fig.add_subplot(111)
+bp=ax.boxplot(data_to_plot);

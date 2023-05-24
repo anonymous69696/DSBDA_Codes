@@ -1,0 +1,35 @@
+import pandas as pd
+
+data=pd.read_csv('iris_dataset.csv')
+df=pd.DataFrame(data)
+df
+
+df.describe()
+
+df.info()
+
+df.isnull()
+
+df.head()
+
+df.tail()
+
+print(df.dtypes)
+
+print("Mean of Iris dataset \n",df.groupby('target').mean(),"\n")
+print("Median of Iris dataset \n",df.groupby('target').median(),"\n")
+print("Mode of Iris dataset \n",df.mode(axis=1,numeric_only=True), "\n")
+print("Mode of Iris dataset \n",df.mode(axis=0,numeric_only=False), "\n")
+print("Standard Deviation of Iris dataset \n",df.groupby('target').std(),"\n")
+print("Variance of Iris dataset \n",df.groupby('target').var(),"\n")
+print("Max of Iris dataset \n",df.groupby('target').max(),"\n")
+print("Min of Iris dataset \n",df.groupby('target').min(),"\n")
+
+std = df['sepal width (cm)'].std()
+print("Standered Deviation : ",std)
+
+gk=df.groupby('Gender')
+gk.get_group('Male')
+gk.get_group('Female')
+
+df.groupby(df['Gender']).ApplicantIncome.agg(['min','max','mean','median','std'])

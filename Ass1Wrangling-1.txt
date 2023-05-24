@@ -1,0 +1,66 @@
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+data=pd.read_csv('Greenhouse-gas-emissions-industry-and-household-March-2022-quarter.csv')
+df=pd.DataFrame(data)
+df
+
+df.isnull()
+
+df.isnull().sum()
+
+df.head()
+
+df.tail()
+
+print(df.dtypes)
+
+df.describe()
+
+df.info()
+
+df['Data_value'] = df['Data_value'].fillna(df['Data_value'].mean())
+df
+
+df['Variable'] = df['Variable'].map({'Seasonally adjusted':0,'Actual':1})
+df
+
+df=df[df['Data_value']>=20000]
+df
+
+df=df.drop(['Units'],axis=1)
+df
+
+sns.displot(df['Data_value'])
+plt.show()
+
+non_duplicate = df[~df.duplicated('Anzsic_description')]
+non_duplicate
+
+df['Period'] = pd.factorize(df['Period'])[0]
+df
+
+df_copy=df.copy()
+df_copy['Data_value']=df_copy['Data_value']/df_copy['Data_value'].abs().max()
+
+sns.displot(df_copy['Period'])
+plt.show()
+
+df_copy=df.copy()
+df_copy['Period']=(df_copy['Period'] - df_copy['Period'].min())/(df_copy['Period'].max())
+sns.displot(df_copy['Period'])
+plt.show()
+
+sns.displot(df['Period'])
+plt.show()
+
+z_copy=df.copy()
+for col in ['Period']:
+    z_copy[col]=(z_copy[col]-z_copy[col].mean())/z_copy[col].std()
+
+sns.displot(z_copy['Period'])
+plt.show()
+
+grouped = df.groupby('Data_value')
+print(grouped.get_group(20480))

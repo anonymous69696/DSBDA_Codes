@@ -1,0 +1,89 @@
+import pandas as pd
+import numpy as np
+import seaborn as sns
+from scipy import stats
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+
+data={'Name':['A','B','C','D','E',' F'], 
+ 'Age':[12,17,22,18,24,30],
+ 'Gender':['M','M','M','M','F','F'],
+ 'Marks':[70,56,89,67,67,78],
+ 'PhD':['Y','Y','N','Y','N','Y']
+ }
+
+data=pd.read_csv('DataStudents.csv')
+df=pd.DataFrame(data)
+df
+
+df.describe()
+
+df.info()
+
+df.isnull()
+
+df.head()
+
+df.tail()
+
+print(df.dtypes)
+
+df['Maths']=df['Maths'].fillna(df['Maths'].mean())
+df['Science']=df['Science'].fillna(df['Science'].mean())
+df['English']=df['English'].fillna(df['English'].mean())
+df['Total']=df['Total'].fillna(df['Total'].mean())
+df['Average']=df['Average'].fillna(df['Average'].mean())
+df.head(7)
+
+sns.boxplot(df['Age'])
+
+x=df.Age
+y=df.RollNo
+plt.scatter(x,y,c="Purple",s=150)
+plt.show()
+
+dai=df.Age
+m=np.mean(dai)
+sd=np.std(dai)
+print("Mean is ",m)
+print("Standard Deviation is ",sd)
+
+data=np.sort(df.Age)
+Q1 = np.percentile(data, 25, interpolation = 'midpoint') 
+Q2 = np.percentile(data, 50, interpolation = 'midpoint') 
+Q3 = np.percentile(data, 75, interpolation = 'midpoint')  
+print('Q1 25 percentile of the given data is, ', Q1)
+print('Q1 50 percentile of the given data is, ', Q2)
+print('Q1 75 percentile of the given data is, ', Q3) 
+IQR = Q3 - Q1
+print('Interquartile range is', IQR)
+
+low_lim = Q1 - 1.5 * IQR
+up_lim = Q3 + 1.5 * IQR
+print('low_limit is', low_lim)
+print('up_limit is', up_lim)
+outlier =[]
+for x in data:
+    if ((x> up_lim) or (x<low_lim)):
+        outlier.append(x)
+print('Outlier in the dataset is', outlier)
+
+df.drop(10, inplace = True)
+df
+
+sns.boxplot(df['Age'])
+
+df['log_total'] = np.log2(df['Total'])
+df
+
+df_copy=df.copy()
+df_copy['Average']=(df_copy['Average'] - df_copy['Average'].min())/(df_copy['Average'].max())
+sns.displot(df_copy['Average'])
+plt.show()
+
+z_copy=df.copy()
+for col in ['Average']:
+    z_copy[col]=(z_copy[col]-z_copy[col].mean())/z_copy[col].std()
+
+sns.displot(z_copy['Average'])
+plt.show()
